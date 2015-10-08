@@ -99,9 +99,11 @@ fisherYatesShuffle(obfusParts1);
 
 // The part of the javascript that sets the current javascript functions to null and cleans up the code
 var obfusParts2 = [
-	"window.open=new Function();window.showModelessDialog=null;window.showModalDialog=null;window.prompt=null;window.confirm=null;window.alert=null;",
-	"window.moveTo=null;window.moveBy=null;window.resizeTo=null;window.resizeBy=null;window.scrollBy=null;window.scrollTo=null;window.blur=null;window.focus=null;",
-	"document.getSelection=null;window.getSelection=null;window.onunload=null;window.print=null;",
+	["window.open", "window.showModelessDialog", "window.showModalDialog", "window.prompt", "window.confirm",
+	 "window.moveTo", "window.moveBy", "window.resizeTo", "window.resizeBy", "window.scrollBy", "window.scrollTo",
+	 "window.blur", "window.onunload", "window.print"].reduce(function(code, name) {
+		return code + name + "=function(){return null};";
+	 }, "document.getSelection=window.getSelection=undefined;"),
 	
 	"(function(){var ourScript=document.getElementsByTagName('script');for(var i=0; i < ourScript.length; i++){if(ourScript[i].id && ourScript[i].id === '", 
 	obfusPartsID, "'){ourScript[i].parentNode.removeChild(ourScript[i]);break;}}})();"
